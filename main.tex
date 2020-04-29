@@ -1,0 +1,559 @@
+\documentclass[12pt]{report}
+  \usepackage[english]{babel}
+  \usepackage[utf8]{inputenc}
+  \usepackage[dvipsnames]{xcolor}
+  \usepackage{hyperref}
+  \usepackage{listings}
+  \usepackage{parcolumns}
+  \usepackage{algorithm}
+  \usepackage{algorithmicx}
+  \usepackage{algpseudocode}
+  \usepackage{enumitem}
+  \usepackage{geometry}
+  \usepackage{soul}
+  \usepackage{graphicx}
+  \usepackage{enumitem}
+  \usepackage{csquotes}
+  \usepackage{bookmark}
+  \usepackage{mdframed}
+  \usepackage{mathtools}
+  \usepackage{amsmath}
+  \usepackage{amsthm}
+  \usepackage[toc]{appendix}
+  \usepackage[
+    backend=biber,%
+    style=apa%
+  ]{biblatex}
+
+  \colorlet{light-gray}{gray!10}
+
+  % Bibliography Setup
+  \addbibresource{main.bib}
+  \newcommand{\CiteSection}[2]{%
+    \parencite[~\S{#2}]{#1}
+  }
+
+  % Theorem Environments
+  \theoremstyle{definition}
+  \newtheorem*{defn*}{Definition}
+  \theoremstyle{plain}
+  \newtheorem*{equ*}{Equation}
+  \theoremstyle{plain}
+  \newtheorem*{examp*}{Example}
+
+  % Definitions for Algorithmic Environments
+  \algdef{SE}[VARIABLES]{GVariables}{EndGVariables}
+    {\algorithmicvariables}
+    {\algorithmicend\ \algorithmicvariables}
+  \algnewcommand{\algorithmicvariables}{\textbf{global variables}}
+
+  \algdef{SE}[VARIABLES]{LVariables}{EndLVariables}
+    {\algorithmiclvariables}
+    {\algorithmicend\ \algorithmiclvariables}
+  \algnewcommand{\algorithmiclvariables}{\textit{local variables}}
+
+  \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+  \renewcommand{\algorithmicensure}{\textbf{Output:}}
+  \renewcommand\thealgorithm{}
+
+  % Settings for math-mode
+  \makeatletter
+  \def\mathcolor#1#{\@mathcolor{#1}}
+  \def\@mathcolor#1#2#3{%
+    \protect\leavevmode
+    \begingroup
+      \color#1{#2}#3%
+    \endgroup
+  }
+  \makeatother
+
+  % Image Directory
+  \graphicspath{ {screenshots/} }
+  % Hyperlink Setup
+  \hypersetup{
+    colorlinks = true,
+    urlcolor = blue,
+    linkcolor = blue,
+    citecolor = blue
+  }
+
+  % Syntax-Highlight for Code Snippets
+  %% UTF-8 Support
+  \lstset{literate=%
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+    {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+    {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+    {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+    {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+    {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+    {Ã}{{\~A}}1 {ã}{{\~a}}1 {Õ}{{\~O}}1 {õ}{{\~o}}1
+    {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+    {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+    {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+    {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+    {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+  }
+  %% Appearance
+  \lstset{
+    breaklines=true,
+    captionpos=b,
+    frame=tblr,
+    tabsize=2,
+    numbers=left,
+    showstringspaces=false,
+    commentstyle=\color{Red},
+    keywordstyle=\color{Violet},
+    stringstyle=\color{OliveGreen},
+    backgroundcolor=\color{light-gray}
+  }
+
+  % Page and Text Layout
+  \geometry{%
+    a4paper,%
+    top=1in,%
+    bottom=1in,%
+    left=1in,%
+    right=1in%
+  }
+  \setlength{\headheight}{15pt}
+
+  \lstMakeShortInline[language=c++,columns=fixed]|
+
+  \newenvironment{ldefinitions}
+    {\left.\begin{aligned}}
+    {\end{aligned}\right\rbrace}
+
+  \title{
+    Module 5 Concept Discussion\\%
+    \Large{Coding Standards}
+  }
+  \author{Ashton Hellwig}
+  \date{\today}
+
+\begin{document}
+  \maketitle
+  \tableofcontents
+%   \lstlistoflistings
+  \newpage
+
+
+  \chapter{Initial Post}
+    \vspace*{-10pt}
+    \section*{Research Prompt}
+      \begin{mdframed}[backgroundcolor=green!20]
+        Many groups use standard conventions for programming, including the
+          ordering of public and private members in the class. See Examples
+          10-3 through 10-5 for one such convention. What is the advantage of
+          using such a standard? Do you have your own preferences?
+      \end{mdframed}
+    \vspace{-15pt}
+    \section{Response}
+      \subsection{Introduction}
+        First, so no one will have to open the book and view Examples 10.3-10.5,
+          I will include a summary (including the examples) here given in the
+          \S 10.8 of the textbook \autocite{malik2015}.
+        \begin{lstlisting}[language=c++,caption={Example 10.3},label={e3}]
+class clockType {
+public:
+  void setTime(int, int, int);
+  void getTime(int&, int&, int&) const;
+  void printTime() const;
+  void incrementSeconds();
+  void incrementMinutes();
+  void incrementHours();
+  bool equalTime(const clockType&) const;
+
+private:
+  int hour;
+  int minute;
+  int second;
+}
+        \end{lstlisting}
+        \begin{lstlisting}[language=c++,caption={Example 10.4},label={e4}]
+class clockType {
+private:
+  int hour;
+  int minute;
+  int second;
+
+public:
+  void setTime(int, int, int);
+  void getTime(int&, int&, int&) const;
+  void printTime() const;
+  void incrementSeconds();
+  void incrementMinutes();
+  void incrementHours();
+  bool equalTime(const clockType&) const;
+}
+        \end{lstlisting}
+        \begin{lstlisting}[language=c++,caption={Example 10.5},label={e5}]
+class clockType {
+  int hour;
+  int minute;
+  int second;
+
+public:
+  void setTime(int, int, int);
+  void getTime(int&, int&, int&) const;
+  void printTime() const;
+  void incrementSeconds();
+  void incrementMinutes();
+  void incrementHours();
+  bool equalTime(const clockType&) const;
+}
+        \end{lstlisting}
+
+        Initially, the most notable differences are in that in Listing
+          \ref{e3} the private members are placed after the public members,
+          while Listing \ref{e4} places private members first and Listing
+          \ref{e5} places private members first, without an access specifier.
+
+        The book states that without an access specifier, members default to
+          private and it is common practice to list \textbf{public} members
+          before \textbf{private} members in order to ``focus your attention
+          on the public members'' \autocite{malik2015}. I find this odd,
+          considering in nearly every editor I have tried (My main is
+          Visual Studio Code), the C++17 snippets for classes almost always
+          put private members first. I actually believe it makes more sense
+          to place private members first, since you tend to know the
+          \textit{types} and \textit{pieces} of data you need prior to
+          writing its functions. Also, it is only in a |class| where the default
+          access specifier is |private|, |struct|s default to a public access specifier
+          and can be adjusted by setting |private| as the access specifier.
+
+        In order to discuss programming standards and conventions (as well as
+          my preferred method of style and convention), we must go over some of
+          the more common programming style-guides/conventions and contrast
+          their motivations.
+
+        Since the book discusses the order of members within a standard class, even
+          though there are \textit{ample} differing opinions on style and convention, we will
+          be focusing on the declaration and access of member variables.
+
+        \subsection{CPP Core Guidelines} 
+          \subsubsection{Links}
+            \begin{itemize}
+              \item \href{https://github.com/isocpp/CppCoreGuidelines}{Homepage}
+              \item \href{https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md}{Guidelines}
+            \end{itemize}
+          \subsubsection{Highlights}
+          
+        \subsection{My Personally Preferred Style}
+          \subsubsection{Links}
+            \begin{itemize}
+                \item \href{https://github.com/ashellwig/ashellwig_m4c8_programming_assignment}{Repository Example 1}
+                \item \href{https://github.com/ashellwig/ashellwig_m5c9_programming_assignment}{Repository Example 2}
+            \end{itemize}
+          \subsubsection{Highlights}
+            I personally use a style based on LLVM`s, configured through the use of a development
+              utility which comes with clang called `\href{https://clang.llvm.org/docs/ClangFormat.html}{clang-format}'. You can view my
+              personal configuration file I use for (roughly) any of my C++ based projects
+              \href{https://github.com/ashellwig/ashellwig_m5c9_programming_assignment/blob/master/.clang-format}{here}. I will also include below a code snippet which shows what the style looks like for
+              different language components and features.
+              
+            \begin{lstlisting}[language=c++,caption={Ashton`s clang-format Result -- Macros}]
+namespace ashwig_debug {
+/**
+ * @brief Prints the output of a function call when it is sent to stderr rather
+ * than stdout. Use for debugging assistance.
+ */
+#define verbose_print(message, ...)                                            \
+  std::cerr << "[" << __FILE__ << "]: "                                        \
+            << "[" << __PRETTY_FUNCTION__ << "]: "                             \
+            << "[line:" << __LINE__ << "] >> " << message << __VA_ARGS__       \
+            << std::endl;
+} // namespace ashwig_debug
+\end{lstlisting} 
+
+            \begin{lstlisting}[language=c++,caption={Ashton`s clang-format Result -- Macros}]
+/**
+ * @file chapter8.hh
+ * @author Ashton Scott Hellwig (ahellwig@student.cccs.edu)
+ * @brief This file contains the prototypes used for
+ * calculating the vote statistics of data input by the user.
+ * @date 2020-04-16
+ *
+ * Assignment: Module 4 Chapter 8 Programming Assignment.
+ * Description: This file contains the prototypes used for
+ * calculating the vote statistics of data input by the user.
+ * Instructor: Jeffrey Hemmes.
+ * Course: [CSC 160] Introduction to Programming (C++).
+ * Date: 16 April 2020.
+ */
+
+#ifndef _CHAPTER8_HH_INCLUDED
+#define _CHAPTER8_HH_INCLUDED
+#include <string>
+
+#ifndef NDEBUG
+#  define DEBUG 1
+#  include "ashwig_debug.hh"
+#else
+#  define DEBUG 0
+#endif
+
+#include "ashwig_exceptions.hh"
+
+namespace chapter8 {
+
+class Candidate {
+public:
+  // Static constants
+  static const int m_numberOfCandidates =
+      5; //*< Number of candidates in election.
+
+  // Constructors
+  Candidate(); //*< Construct class with user input via std::cin.
+  explicit Candidate(
+      std::string); //*< Construct class with one string(for testing).
+
+  // Setters
+  void setTotalVotes(int[]);
+  int calculatePercentOfVotes();
+  // Getters
+  int getTotalVotes() const;
+  int getWinnerIndex() const;
+  void getUserInput(std::string[], int[]);
+  // Printers
+  void printResult() const;
+
+protected:
+  std::string m_names[m_numberOfCandidates]; //*< Last names of candidates.
+  int m_votes[m_numberOfCandidates]; //*< Number of votes for each candidate.
+  double m_percentOfVotes[m_numberOfCandidates]; //*< Percentage of total votes
+                                                 //*< for each candidate.
+  int m_totalVotes; //*< Total votes across all candidates.
+  // clang-format disable
+}; // class Candidate
+// clang-format enable
+} // namespace chapter8
+#endif // !CHAPTER8_HH_INCLUDED
+}
+\end{lstlisting}
+
+            \begin{lstlisting}[language=c++,caption={Ashton`s clang-format Result -- Macros}]
+/**
+ * @file chapter8.cxx
+ * @author Ashton Scott Hellwig (ahellwig@student.cccs.edu)
+ * @brief This file contains the function implementations used for
+ * calculating the vote statistics of data input by the user.
+ * @date 2020-04-21
+ *
+ * Assignment: Module 4 Chapter 8 Programming Assignment.
+ * Description: This file contains the function implementations used for
+ * calculating the vote statistics of data input by the user.
+ * Instructor: Jeffrey Hemmes.
+ * Course: [CSC 160] Introduction to Programming (C++).
+ * Date: 21 April 2020.
+ */
+
+#include "../include/chapter8.hh"
+#include <iomanip>  //std::setw, std::setprecision
+#include <iostream> // std::cin, std::cout
+#include <sstream>  // std::stringstream
+#include <string>   // std::string
+
+/**
+ * @brief Construct a new chapter8::Candidate::Candidate object
+ */
+chapter8::Candidate::Candidate() {
+  // Prompt user for input to initialize our parallel arrays.
+  getUserInput(m_names, m_votes);
+
+  // Calculate number of total votes (sum of votes for all candidates).
+  for (int iter = 0; iter < m_numberOfCandidates; iter++) {
+    m_totalVotes += m_votes[iter];
+  }
+
+  // Calculate the percentage of total votes received by each candidate and
+  // store the value in a separate array.
+  for (int iter = 0; iter < m_numberOfCandidates; iter++) {
+    m_percentOfVotes[iter] =
+        100.00 * (m_votes[iter] / static_cast<double>(m_totalVotes));
+  }
+}
+
+/**
+ * @brief Construct a new chapter8::Candidate::Candidate object
+ *
+ * @param inputString The last names and number of votes for each candidates in
+ * one string.
+ */
+chapter8::Candidate::Candidate(std::string inputString) {
+  std::stringstream userInputStream(inputString);
+
+  // Initialize Arrays
+  for (int iter = 0; iter < m_numberOfCandidates; iter++) {
+    userInputStream >> m_names[iter] >> m_votes[iter];
+  }
+
+  // Calculate number of total votes (sum of votes for all candidates).
+  for (int iter = 0; iter < m_numberOfCandidates; iter++) {
+    m_totalVotes += m_votes[iter];
+  }
+
+  // Calculate the percentage of total votes received by each candidate and
+  // store the value in a separate array.
+  for (int iter = 0; iter < m_numberOfCandidates; iter++) {
+    m_percentOfVotes[iter] = m_votes[iter] / static_cast<double>(m_totalVotes);
+  }
+}
+
+/**
+ * @brief Sets the Candidate class's private member variables using input
+ * obtained via stdin.
+ *
+ * @param names The last names of the candidates in the election.
+ * @param votes The number of votes received by the candidate.
+ */
+void chapter8::Candidate::getUserInput(std::string names[], int votes[]) {
+  // Prompt User
+  std::cout
+      << "Enter candidate's last name and the votes received by the candidate."
+      << std::endl;
+
+  // Initialize our arrays
+  for (int iter = 0; iter < m_numberOfCandidates; iter++) {
+    std::cin >> names[iter] >> votes[iter];
+  }
+}
+
+/**
+ * @brief Calculates the sum of votes received by all candidates.
+ *
+ * @return int The sum of votes received by all candidates.
+ */
+int chapter8::Candidate::getTotalVotes() const { return m_totalVotes; }
+
+/**
+ * @brief Returns the index of the candidate with the most votes.
+ *
+ * @return int The index of the candidate with the most votes.
+ */
+int chapter8::Candidate::getWinnerIndex() const {
+  int mostVotes = 0; //*< The number of votes received by the winning candidate.
+  int index = 0;     //*< Index of array.
+  int lcv = sizeof(m_votes) / sizeof(m_votes[0]); //*< Loop Control Variable.
+
+  for (int i = 0; i < lcv; i++) {
+    if (m_votes[i] > mostVotes) {
+      mostVotes = m_votes[i];
+      index = i;
+    }
+  }
+
+  return index;
+}
+
+/**
+ * @brief Generates the desired output for the Chapter 8 Programming Assignment.
+ */
+void chapter8::Candidate::printResult() const {
+  // Set local variables.
+  int lcv = sizeof(m_votes) / sizeof(m_votes[0]); //*< Loop control variable.
+
+  // Output formatted header
+  std::cout << std::setprecision(3) << std::fixed;
+  std::cout << "Candidate" << std::setw(4) << " "
+            << "Votes Received" << std::setw(4) << " "
+            << "\% of Total Votes" << std::endl;
+
+  // Loop which prints the election results based on our user's input.
+  for (int i = 0; i < lcv; i++) {
+    std::cout << std::fixed << std::setprecision(2) << std::left;
+    std::cout << std::setw(16) << m_names[i] << std::setw(23) << m_votes[i]
+              << m_percentOfVotes[i] << '\n';
+  }
+
+  // Find our election winner.
+  int indexOfWinner = getWinnerIndex();
+
+  // Output total number of votes received by ALL candidates.
+  std::cout << "Total"
+            << " " << std::setw(15) << m_totalVotes << std::endl;
+
+  // Output winner of election.
+  std::cout << "The winner of the election is " << m_names[indexOfWinner] << "."
+            << std::endl;
+}
+\end{lstlisting}
+          
+ 
+        \subsection{LLVM}
+          \subsubsection{Links}
+            \begin{itemize}
+                \item \href{https://llvm.org/docs/CodingStandards.html}{Guidelines}
+            \end{itemize}
+          \subsubsection{Highlights}
+            Going back to the ordering of members within classes, the LLVM style guide has
+              different ideas, assuming that examples are sufficient evidence as to the order of declaration,
+              as it does not explicitly discuss the issue. Private members are listed first, and public
+              members are after.\footnote{\href{https://llvm.org/docs/CodingStandards.html\#use-of-class-and-struct-keywords}{LLVM: Use of class and struct Keywords}}
+              
+            In addition to this, LLVM has a few other notable style conventions. I will go over a few of them below.
+              \begin{enumerate}
+                  \item |#include <iostream>| is forbidden:
+                  \begin{itemize}
+                      \item This stream implementation inherently injects a static constructor into each
+                        instance. This breaks LLVM`s rule concerning \href{https://llvm.org/docs/CodingStandards.html#static-constructor}{static constructors}.
+                        LLVM uses its own implementation, \texttt{raw\_ostream}, for this. 
+                  \end{itemize}
+                  \item Avoid the use of \lstinline[language=c++,columns=fixed]{std::endl}
+                    \begin{itemize}
+                        \item |std::endl| causes a flush to the output
+                          stream, in addition to a new line. Generally this is not the desired effect. It is
+                          better to use \lstinline[language=c++,columns=fixed]{std::cout << "Hello!\n";} or
+                          \lstinline[language=c++,columns=fixed]{std::cout << "Hello!" << '\n';} to end a line
+                          when the output stream does not need to be flushed.
+                    \end{itemize}
+              \end{enumerate}
+              
+
+        \subsection{Google}
+          \subsubsection{Links}
+            \begin{enumerate}
+                \item \href{https://google.github.io/styleguide/cppguide.html}{Homepage}
+            \end{enumerate}
+          \subsubsection{Highlights}
+            Unlike most style guides, Google`s explicitly discusses the declaration order
+              of class members.\footnote{\href{https://google.github.io/styleguide/cppguide.html\#Declaration_Order}{Google Style Guide (C++): Declaration Order}}
+              Google states to place \texttt{public:} members first, then \texttt{protected:}, and then
+              finally \texttt{private:} members. It does not specify whether or not the word ``private''
+              is required for the declaration of private member variables.
+              
+            Google mainly differs from other style guides in its \href{https://google.github.io/styleguide/cppguide.html\#Naming}{naming conventions}, specifically
+              \href{https://google.github.io/styleguide/cppguide.html#Variable_Names}{with variable names}.
+              
+            Mozilla`s style guidelines are derived from Google`s.
+
+        \subsection{Microsoft} 
+          Placeholder.
+        
+        \subsection{Advantages to Using a Standard}
+          There are numerous advantages to the adherence to a standard convention of style.
+            Not only in programming/development, but in any collaborative work environment.
+            For example, even in the marijuana dispensary I currently work in we constantly
+            have to use/write/revise our \textbf{SOP}s -- \textit{Standard Operating Procedures}.
+            SOPs are designed to help employees perform complicated tasks consistently in the
+            same way, and with the level of regulation put towards our industry it is incredibly
+            important to rememver the minor details of every task. In programming, code style
+            guidelines and defining contributor guidelines is the best way to ensure that
+            code stays consistent and readable by everyone collaborating on the project and to make
+            the code base and repository easier to maintain as wekk as decrease its
+            computational complexity and run-time.
+
+
+  % Replies to Other`s Responses
+  %\input{tex/replies.tex}
+
+
+  % Bibliography
+  \newpage
+  \nocite{*}
+  \printbibliography[
+    heading=bibintoc,
+    title={Bibliography}
+  ]
+\end{document}

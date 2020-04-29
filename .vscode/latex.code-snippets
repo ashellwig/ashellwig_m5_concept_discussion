@@ -1,0 +1,32 @@
+{
+  /* Code Snippets */
+  // LaTeX
+  "Side-by-Side `lstlistings`": {
+    "scope": "latex",
+    "prefix": "lstmultipage",
+    "description": "Creates a two-column environment for code snippets.",
+    "body": [
+      "\\noindent%",
+      "\\begin{minipage}{0.45\\textwidth}",
+      "\t\\begin{lstlisting}[%",
+      "\t\tlanguage=c++,%",
+      "\t\tcaption={$1},%",
+      "\t\tlabel={$2},%",
+      "\t\tframe=tlrb%",
+      "\t]",
+      "$3",
+      "\t\\end{lstlisting}",
+      "\\end{minipage}\\hfill",
+      "\\begin{minipage}{0.45\\textwidth}",
+      "\t\\begin{lstlisting}[%",
+      "\t\tlanguage=c++,%",
+      "\t\tcaption={$4},%",
+      "\t\tlabel={$5},%",
+      "\t\tframe=tlrb%",
+      "\t]",
+      "$6",
+      "\t\\end{lstlisting}",
+      "\\end{minipage}"
+    ]
+  }
+}
